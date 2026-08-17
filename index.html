@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tiger's Playbook</title>
+<style>
+  :root {
+    --navy: #03244D;
+    --navy-dark: #021935;
+    --chalk: #f6f3ea;
+    --chalk-dim: #e8e2d0;
+    --orange: #DD550C;
+    --ink: #1a1a16;
+    --line: rgba(255,255,255,0.25);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--chalk);
+    color: var(--ink);
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.5;
+  }
+
+  .hero {
+    background:
+      repeating-linear-gradient(90deg, var(--line) 0 2px, transparent 2px 80px),
+      linear-gradient(180deg, var(--navy) 0%, var(--navy-dark) 100%);
+    color: var(--chalk);
+    padding: 3.5rem 1.5rem 2.5rem;
+    text-align: center;
+    border-bottom: 6px solid var(--orange);
+  }
+
+  .hero .eyebrow {
+    font-size: 0.8rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--orange);
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+
+  .hero h1 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: 700;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    margin: 0 0 0.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  .hero p {
+    max-width: 46ch;
+    margin: 0 auto;
+    color: var(--chalk-dim);
+    font-size: 1.05rem;
+  }
+
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 5rem;
+  }
+
+  section { margin-bottom: 3rem; }
+
+  h2 {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.6rem;
+    color: var(--navy);
+    border-bottom: 3px solid var(--orange);
+    padding-bottom: 0.4rem;
+    margin-bottom: 1.2rem;
+  }
+
+  h3 {
+    font-size: 1.15rem;
+    margin: 1.6rem 0 0.5rem;
+    color: var(--navy);
+  }
+
+  .play-name {
+    display: inline-block;
+    background: var(--navy);
+    color: var(--chalk);
+    font-weight: 700;
+    padding: 0.15em 0.6em;
+    border-radius: 3px;
+    font-size: 0.95em;
+    letter-spacing: 0.02em;
+  }
+
+  .rule-box {
+    background: white;
+    border: 1px solid var(--chalk-dim);
+    border-left: 5px solid var(--orange);
+    padding: 1.1rem 1.3rem;
+    border-radius: 4px;
+    margin-bottom: 0.6rem;
+  }
+
+  .rule-box ul { margin: 0; padding-left: 1.2rem; }
+  .rule-box ol { margin: 0; padding-left: 1.2rem; }
+  .rule-box li { margin-bottom: 0.6rem; }
+  .rule-box li:last-child { margin-bottom: 0; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    font-size: 0.95rem;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 0.6rem 0.7rem;
+    border: 1px solid var(--chalk-dim);
+    vertical-align: top;
+  }
+
+  th {
+    background: var(--navy);
+    color: var(--chalk);
+    font-weight: 600;
+  }
+
+  tr:nth-child(even) td { background: #fbfaf6; }
+
+  .diagram {
+    background: var(--navy);
+    color: var(--chalk);
+    font-family: "SF Mono", "Courier New", monospace;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    padding: 1.3rem 0.5rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    white-space: pre;
+    margin: 0.8rem auto 1rem;
+    border: 1px solid var(--navy-dark);
+    width: 71ch;
+    max-width: 100%;
+    box-sizing: content-box;
+  }
+
+  .formation-row {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .formation-card {
+    background: white;
+    border: 1px solid var(--chalk-dim);
+    border-radius: 6px;
+    padding: 1.2rem 1.2rem;
+  }
+
+  .formation-card h3 { margin-top: 0; font-size: 1.05rem; }
+  .formation-card h4 {
+    font-size: 0.85rem;
+    color: var(--orange);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 1rem 0 0.2rem;
+  }
+
+  .formation-card .diagram { font-size: 0.85rem; padding: 1.2rem 0.8rem; }
+
+  .formation-card p { font-size: 0.92rem; }
+  .formation-card ul { padding-left: 1.1rem; margin: 0.6rem 0 0; font-size: 0.92rem; }
+  .formation-card li { margin-bottom: 0.3rem; }
+
+  .example-pair {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .play-card {
+    background: white;
+    border: 1px solid var(--chalk-dim);
+    border-radius: 6px;
+    padding: 1.1rem 1.4rem;
+    margin-bottom: 1rem;
+  }
+
+  .play-card .tag {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--orange);
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+    display: block;
+  }
+
+  .play-card p { margin: 0.3rem 0 0; }
+  .play-card .example {
+    margin-top: 0.5rem;
+    font-style: italic;
+    color: #5c584c;
+    font-size: 0.92rem;
+  }
+
+  .call-format {
+    background: var(--navy-dark);
+    color: var(--chalk);
+    text-align: center;
+    padding: 1.4rem 1rem;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+
+  .call-format .example {
+    display: block;
+    margin-top: 0.6rem;
+    font-style: italic;
+    color: var(--orange);
+    font-size: 1rem;
+  }
+
+  .cheat-sheet {
+    background: var(--ink);
+    color: var(--chalk);
+    border-radius: 6px;
+    padding: 1.3rem 1.4rem;
+    font-family: "SF Mono", "Courier New", monospace;
+    font-size: 0.92rem;
+    line-height: 1.9;
+  }
+
+  .cheat-sheet .label { color: var(--orange); font-weight: 700; }
+
+  .section-divider {
+    background:
+      repeating-linear-gradient(90deg, var(--line) 0 2px, transparent 2px 80px),
+      linear-gradient(180deg, var(--navy) 0%, var(--navy-dark) 100%);
+    color: var(--orange);
+    text-align: center;
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: 700;
+    font-size: 1.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 1.1rem 1rem;
+    border-radius: 8px;
+    margin: 3rem 0 2rem;
+  }
+
+  .routes-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  @media (max-width: 620px) {
+    .routes-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .route-card {
+    background: white;
+    border: 1px solid var(--chalk-dim);
+    border-radius: 6px;
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .route-card h4 {
+    margin: 0.6rem 0 0.3rem;
+    color: var(--navy);
+    font-size: 1rem;
+  }
+
+  .route-card p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #4a463c;
+  }
+
+  .route-diagram-box {
+    background: var(--navy);
+    border-radius: 6px;
+    padding: 0.5rem;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .route-diagram-box svg {
+    height: 100%;
+    width: 100%;
+  }
+
+  footer {
+    text-align: center;
+    padding: 2rem 1.5rem 3rem;
+    color: #8a8578;
+    font-size: 0.85rem;
+  }
+
+  @media print {
+    .hero { padding: 1.5rem; }
+    .play-card, .formation-card, .rule-box { break-inside: avoid; }
+    section { margin-bottom: 1.8rem; }
+    body { background: white; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="eyebrow">6th Grade Girls · 7v7</div>
+  <h1>Tiger's Playbook</h1>
+  <p>3 formations, 10 plays, simple so the girls can call their own plays.</p>
+</div>
+
+<main>
+
+  <section>
+    <h2>Things to Know as a Teammate or Tiger Parent</h2>
+    <div class="rule-box">
+      <ul>
+        <li>This is for fun. As coaches, we are simply trying to add some structure to enable the girls to lead the team independently and be successful. We only ask that the girls have a good attitude and be supportive teammates. Girls are welcome to be involved as much or little as they want. We absolutely do not expect all girls to be excited about learning a playbook or calling the plays, so hopefully we have a good mix.</li>
+        <li>Everyone who wants to carry the ball will get chances to do so over the course of the season. Conversely, if girls do not want to carry the ball, that's fine too — just tell one of the coaches if you don't want the ball.</li>
+        <li>We have a large and extremely talented group of girls, so we can't guarantee equal touches every single game — but we'll do our best to spread it around across the season. We'll always prioritize everyone having fun over winning every game.</li>
+        <li><strong>Quarterbacks</strong> will be a more significant commitment this year since coaches will not be on the field. They will lead the offense: They'll need to understand the playbook well enough to call their own plays, keep everyone focused, command the huddle respectfully &amp; get everyone lined up properly. Please speak to your daughter to ensure they understand the commitment prior to asking to try QB. At the final practice prior to our first game, we will individually ask each girl if they want to try quarterback. I expect we will have at least 3 or 4 at that point, so if it's still "maybe" that's fine.</li>
+        <li>Defense will have a captain who will be the leader of the defense. They will call formations (we will only have 2), will assign who the rushers are and how many girls rush on each play.</li>
+        <li>Attendance: There is no requirement, we just need to make sure we get at least 7 girls to each game. One of the coaches will send out a note in GroupMe the night before or morning of the game. We will set a lineup beforehand and will have QBs assigned after prior week's game.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>League Rules Everyone Should Know</h2>
+    <div class="rule-box">
+      <ul>
+        <li>On offense, 3 players must be on the line of scrimmage at all times — the Center (C), Left line-girl (A), Right line-girl (B) — regardless of how wide they set up. The remaining 4 players are set back at least one yard off the line: Quarterback (QB), Running back (RB), Left wideout (X), Right wideout (Y).</li>
+        <li>On defense, players can line up anywhere they want as long as they're behind the line of scrimmage. 2 players can rush (but don't have to) on every play — those 2 girls must be 5 yards behind the line of scrimmage. Players can all rush once the ball is handed off or the ball carrier makes a forward motion towards the line of scrimmage.</li>
+        <li>Scoring: Touchdown = 6 points, Extra point run = 1 point, Extra point pass = 2 points.</li>
+        <li>Punts: Can be a throw or an actual punt. When it hits the ground it's a dead ball. If it's caught in the air by the receiving team, it can be advanced.</li>
+        <li>Interceptions are live and can be run back, except on an extra point, where it is a dead ball.</li>
+        <li>Passing: All players on the field are eligible to catch a pass, including the Center and Line-girls.</li>
+        <li>Flags: If a flag falls out without being pulled, play continues until the ball carrier is touched. Note: you do NOT need to get the other flag, just <strong>touch them anywhere</strong>. This happened a lot last year.</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="section-divider">Offense</div>
+
+  <section>
+    <h2>Offensive Positions</h2>
+    <table>
+      <tr><th>Role</th><th>Description</th></tr>
+      <tr><td><strong>C</strong></td><td>Center — always on the line, fixed at the normal center spot, snaps the ball.</td></tr>
+      <tr><td><strong>A &amp; B</strong></td><td>A &amp; B are the girls on the line, satisfying the 3-lineman rule alongside C. The vast majority of the time, A is left of C and B is right of C. A &amp; B can split wide, but will usually be in a line next to each other.</td></tr>
+      <tr><td><strong>QB</strong></td><td>Always lines up directly behind C. Can throw, hand off, or run.</td></tr>
+      <tr><td><strong>RB</strong></td><td>The one dedicated running back — behind QB in a straight line, unless the call sends her wide (Trips).</td></tr>
+      <tr><td><strong>X &amp; Y</strong></td><td>These are the wide receivers but will also get handoffs. X is typically left and Y right. Line up a yard behind the line of scrimmage. Normal formation is out wide between the sideline and the closest line-girl.</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>The 3 Formations</h2>
+
+    <div class="formation-row">
+      <div class="formation-card">
+        <h3>POWER</h3>
+        <p>The standard formation. A/B stay tight to C, X/Y sit at the midpoint between A/B and the sideline.</p>
+        <div class="diagram">                            A      C      B
+              X                    QB                   Y
+                                   RB</div>
+      </div>
+
+      <div class="formation-card">
+        <h3>SPREAD</h3>
+        <p>Built for passing. A/B push out wide first, then X/Y sit just outside them, near the sideline.</p>
+        <div class="diagram">               A                   C                   B
+        X                                                     Y
+                                   QB
+                                   RB</div>
+      </div>
+
+      <div class="formation-card">
+        <h3>FLOOD (shown: Right)</h3>
+        <p>C stays fixed at center. A and B both shift to the called side (A still left of B), and X/Y flood out even further that direction.</p>
+        <div class="diagram">                                   C   A   B
+                                                       X   Y
+                                   QB
+                                   RB</div>
+      </div>
+    </div>
+
+    <h3>Adding Twins or Trips</h3>
+    <div class="rule-box">
+      <p style="margin:0 0 0.6rem;">Twins and Trips are tags you add on top of Power or Spread — they don't change the base formation, just where X, Y (and RB, for Trips) release from:</p>
+      <ul>
+        <li><strong>Twins [Side]</strong> — X &amp; Y both shift to the called side. RB stays home.</li>
+        <li><strong>Trips [Side]</strong> — X, Y &amp; RB all shift to the called side. QB stands alone behind C.</li>
+      </ul>
+      <p style="margin:0.6rem 0 0;">Flood doesn't use Twins/Trips — it's already an overload call on its own. Here are two examples, using different base formations to show the tag works with either one:</p>
+    </div>
+
+    <div class="example-pair">
+      <div class="formation-card">
+        <h4 style="margin-top:0;">Power – Twins Right</h4>
+        <div class="diagram">                            A      C      B
+                                   QB                  X   Y
+                                   RB</div>
+      </div>
+      <div class="formation-card">
+        <h4 style="margin-top:0;">Spread – Trips Left</h4>
+        <div class="diagram">               A                   C                   B
+   RB  X   Y
+                                   QB</div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>How to Call a Play</h2>
+    <div class="call-format">
+      Formation → (Twins/Trips + Side) → Play → Side → "Down, Set, Hike"
+      <span class="example">"Power - Dive - Right" · "Power - Twins Right - Dive - Left"</span>
+    </div>
+    <div class="rule-box">
+      <ol>
+        <li>First say the formation (Power, Spread, Flood), then the Play (Dive, Sweep, Bomb), then the side (Right, Left).</li>
+        <li>If Twins or Trips is incorporated, it goes after the Formation: Power → Twins Right → Dive → Left. The Formation "side" and the play "side" do not need to match.</li>
+        <li>Snap is always on "Hike," but players cannot move until the ball actually moves. i.e. If the QB says hike and the Center is 1 second behind, neither offense nor defensive players can move until the ball actually moves.</li>
+        <li>Keep the huddle under 30 seconds — it's a real penalty if you don't.</li>
+        <li>Quarterbacks will call plays. QBs will play a full half (2 QBs per game). We will have wrist band cheat sheets to wear.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section>
+    <h2>Run Plays</h2>
+
+    <div class="play-card">
+      <span class="tag">Interior run</span>
+      <span class="play-name">DIVE</span>
+      <p>QB pivots and hands off to RB, who runs it straight up the middle behind C/A/B.</p>
+      <p class="example">Call: "Power - Dive - Right"</p>
+    </div>
+
+    <div class="play-card">
+      <span class="tag">Perimeter run</span>
+      <span class="play-name">SWEEP</span>
+      <p>QB takes two steps diagonal back toward the called side, then hands to RB, who runs it wide to that side.</p>
+      <p class="example">Call: "Power - Sweep - Right"</p>
+    </div>
+
+    <div class="play-card">
+      <span class="tag">Misdirection</span>
+      <span class="play-name">SWEEP REVERSE</span>
+      <p>Starts exactly like Sweep — QB takes two diagonal steps back, hands to RB going that direction — but RB then hands off (not a pitch) to X or Y coming back the opposite way. Works out of any formation.</p>
+      <p class="example">Call: "Power - Sweep Reverse - Right" (RB starts right, hands off left to X or Y)</p>
+    </div>
+
+    <div class="play-card">
+      <span class="tag">Keeper</span>
+      <span class="play-name">QB SNEAK</span>
+      <p>No handoff — QB keeps it and runs the called side. Since you need multiple girls comfortable at QB anyway, this keeps the position a real threat, not just a passer.</p>
+      <p class="example">Call: "Power - QB Sneak - Right"</p>
+    </div>
+
+    <h3>Adding a Fake</h3>
+    <div class="rule-box">
+      <p style="margin:0 0 0.6rem;">The QB can add <strong>"Fake"</strong> in front of Dive, Sweep, or Sweep Reverse to run that same fake action, then keep the ball herself instead of actually handing off. Just say <strong>"QB"</strong> after the fake, plus whichever side she's actually running — that side doesn't have to match the direction of the fake.</p>
+      <p style="margin:0;"><strong>Call order:</strong> Formation → Fake [Play] → QB → Side</p>
+      <p class="example" style="margin-top:0.6rem;">"Power - Fake Dive - QB - Left" → fake goes through the Dive action, QB keeps it and runs left</p>
+      <p class="example">"Power - Fake Sweep - QB - Right" → fake goes through the Sweep action, QB keeps it and runs right</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Routes</h2>
+    <p style="color:#5c584c; margin-top:-0.5rem;">Every pass play is built from these — short, intermediate, and deep, so a defense can't cover everything with one call.</p>
+
+    <div class="routes-grid">
+      <div class="route-card">
+        <div class="route-diagram-box">
+          <svg viewBox="0 0 100 130" width="100%">
+            <defs><marker id="arrow-slant" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--orange)"/></marker></defs>
+            <line x1="10" y1="118" x2="90" y2="118" stroke="var(--chalk-dim)" stroke-dasharray="4 3"/>
+            <circle cx="50" cy="118" r="4" fill="var(--chalk)"/>
+            <path d="M50,118 L50,100 L14,74" stroke="var(--orange)" stroke-width="3" fill="none" marker-end="url(#arrow-slant)"/>
+          </svg>
+        </div>
+        <h4>SLANT</h4>
+        <p>2 steps up field, then a sharp cut inside. Quick and low-risk.</p>
+      </div>
+
+      <div class="route-card">
+        <div class="route-diagram-box">
+          <svg viewBox="0 0 100 130" width="100%">
+            <defs><marker id="arrow-out" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--orange)"/></marker></defs>
+            <line x1="10" y1="118" x2="90" y2="118" stroke="var(--chalk-dim)" stroke-dasharray="4 3"/>
+            <circle cx="50" cy="118" r="4" fill="var(--chalk)"/>
+            <path d="M50,118 L50,78 L88,78" stroke="var(--orange)" stroke-width="3" fill="none" marker-end="url(#arrow-out)"/>
+          </svg>
+        </div>
+        <h4>OUT</h4>
+        <p>5 yards up field, then break hard to the sideline. Good for chunk yardage.</p>
+      </div>
+
+      <div class="route-card">
+        <div class="route-diagram-box">
+          <svg viewBox="0 0 100 130" width="100%">
+            <defs><marker id="arrow-hook" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--orange)"/></marker></defs>
+            <line x1="10" y1="118" x2="90" y2="118" stroke="var(--chalk-dim)" stroke-dasharray="4 3"/>
+            <circle cx="50" cy="118" r="4" fill="var(--chalk)"/>
+            <path d="M50,118 L50,66 L62,84" stroke="var(--orange)" stroke-width="3" fill="none" marker-end="url(#arrow-hook)"/>
+          </svg>
+        </div>
+        <h4>HOOK</h4>
+        <p>5 yards up field, then stop and turn back to the QB. Settle in the open zone.</p>
+      </div>
+
+      <div class="route-card">
+        <div class="route-diagram-box">
+          <svg viewBox="0 0 100 130" width="100%">
+            <defs><marker id="arrow-post" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="var(--orange)"/></marker></defs>
+            <line x1="10" y1="118" x2="90" y2="118" stroke="var(--chalk-dim)" stroke-dasharray="4 3"/>
+            <circle cx="50" cy="118" r="4" fill="var(--chalk)"/>
+            <path d="M50,118 L50,55 L28,18" stroke="var(--orange)" stroke-width="3" fill="none" marker-end="url(#arrow-post)"/>
+          </svg>
+        </div>
+        <h4>POST</h4>
+        <p>Release deep, then bend toward the middle of the field. The deep shot.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Pass Plays</h2>
+    <div class="rule-box">
+      <p style="margin:0;"><strong>On every pass play, RB is the built-in screen outlet.</strong> RB releases out to the called side — if nothing's open downfield, QB dumps it to RB in the flat. Every play below also sends X/Y and A/B on <em>different</em> routes, so the defense can't cover everything with one look.</p>
+    </div>
+
+    <div class="play-card">
+      <span class="tag">Quick game</span>
+      <span class="play-name">SLANT</span>
+      <p><strong>X &amp; Y:</strong> Slant. <strong>A &amp; B:</strong> Post — clearing deep so the slant lane stays open underneath.</p>
+      <p class="example">Call: "Spread - Slant - Right"</p>
+    </div>
+
+    <div class="play-card">
+      <span class="tag">Vs. zone · Twins/Trips only</span>
+      <span class="play-name">HOOK</span>
+      <p>Only callable with a Twins or Trips tag. Whichever of X or Y lines up on the outside runs Hook; everyone else — the other of X/Y, A, B, and RB (on a Trips call) — runs Post.</p>
+      <p class="example">Call: "Spread - Twins Right - Hook - Right"</p>
+    </div>
+
+    <div class="play-card">
+      <span class="tag">Deep shot</span>
+      <span class="play-name">BOMB</span>
+      <p><strong>X &amp; Y:</strong> Post. <strong>A &amp; B:</strong> Post — both bending to the middle, but starting from different spots, so the QB gets two separate deep windows instead of one.</p>
+      <p class="example">Call: "Spread - Bomb - Right"</p>
+    </div>
+
+    <div class="play-card">
+      <span class="tag">Combo</span>
+      <span class="play-name">CROSS</span>
+      <p><strong>X &amp; Y:</strong> Slant. <strong>A &amp; B:</strong> Out — a short inside option and a boundary option at the same time, on opposite ends of the field.</p>
+      <p class="example">Call: "Spread - Cross - Right"</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Extra Points</h2>
+    <div class="rule-box">
+      <p style="margin:0;">No special plays — call any normal play from the regular playbook. A run play in = 1 point, a pass play in = 2 points.</p>
+    </div>
+  </section>
+
+  <div class="section-divider">Defense</div>
+
+  <section>
+    <h2>Defensive Positions</h2>
+    <table>
+      <tr><th>Role</th><th>Description</th></tr>
+      <tr><td><strong>Line (x2)</strong></td><td>Anchor the point of attack, reading run or pass first. No requirement to line up across from any specific offensive player.</td></tr>
+      <tr><td><strong>Rushers (x2)</strong></td><td>Must line up 5 yards off the line of scrimmage. Can rush or drop into coverage, decided by the play call.</td></tr>
+      <tr><td><strong>Flankers (x2)</strong></td><td>Set up wide, guard the sidelines so nobody gets outside them.</td></tr>
+      <tr><td><strong>Free Safety (x1)</strong></td><td>Reads the play. Either fills to stop the runner inside, or reads the quarterback if it develops into a pass.</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>Defensive Calls</h2>
+    <div class="rule-box">
+      <ul>
+        <li><strong>"ZONE"</strong> — everyone drops to an area and covers whoever enters it. Start the season here — with only 2 max rushers (5 yards off the ball), zone is easy to teach and forgiving of mistakes.</li>
+        <li><strong>"MAN"</strong> — everyone is assigned one player pre-snap. Introduce once zone rules are solid.</li>
+        <li>Defenders can't converge on the ball carrier until the handoff/pitch/forward motion actually happens — no one should be sprinting in from off the line before that.</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Tiger's Playbook · EGAA 6th Grade Girls 7v7
+</footer>
+
+</body>
+</html>
